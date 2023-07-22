@@ -19,7 +19,7 @@ loop:
   lw t3, 8(t0)
   add t4, t1, t2
   addi t0, t0, 12
-  beq t3, t4, loop        # check if sum is correct
+  beq t3, t4, test_end        # check if sum is correct
   j fail
 
 test_end:
@@ -30,6 +30,7 @@ RVTEST_CODE_END
 
   .data
 RVTEST_DATA_BEGIN
+
 
 test_cases:
   .word 0x20               # input 1
