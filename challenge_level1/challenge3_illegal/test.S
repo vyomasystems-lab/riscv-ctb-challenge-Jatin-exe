@@ -5,26 +5,29 @@
 
 RVTEST_RV64M
 RVTEST_CODE_BEGIN
-
-  .align 2
+  li t4, 10
+  li t5, 0
+  .align 8
   .option norvc
 
   li TESTNUM, 2
 illegal_instruction:
-   .word 0              
+  .word 0              
   j fail
   TEST_PASSFAIL
 
   .align 8
   .global mtvec_handler
 mtvec_handler:
+  addi t5, t5, 1
+  beq t5, t4, pass
+
   li t1, CAUSE_ILLEGAL_INSTRUCTION
   csrr t0, mcause
   bne t0, t1, fail
   csrr t0, mepc
-  addi a7,x0, 64
-  ecall
   mret
+  
 
 RVTEST_CODE_END
 

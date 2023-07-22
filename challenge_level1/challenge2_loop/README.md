@@ -16,14 +16,18 @@ loop:
   j fail
 ```
 
-we need to exit the loop
-one way is to make the test cases not equal
-but then that would result us to jumping to fail
+we need to exit the loop after we check all the 3 test cases
 
+so we need a counter for that first which is done by
+`addi t5, t0, 48`
+here t5 stores the end address of the third test cases
 
-we can edit the `beq t3, t4, loop` to `beq t3, t4, test_end` to exit the loop and avoid the fail block`
+we keep on incrementing t0 by 12 in each test case
+by 3 test cases it must be incremented by 48 if it passed all three test cases successfully
 
--*there are other ways to solve it, i dont know if this is the correct way to solve it*
+so we check for that before the jump to loop
+`beq t0, t5, test_end`
+using this line, which exits the loop after verifying all test cases
 
 
 **output:**
