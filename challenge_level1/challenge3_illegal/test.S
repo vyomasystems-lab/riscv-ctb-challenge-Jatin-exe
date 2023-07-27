@@ -19,13 +19,12 @@ illegal_instruction:
   .align 8
   .global mtvec_handler
 mtvec_handler:
-  addi t5, t5, 1
-  beq t5, t4, pass
-
   li t1, CAUSE_ILLEGAL_INSTRUCTION
   csrr t0, mcause
   bne t0, t1, fail
   csrr t0, mepc
+  addi t0, t0 , 4
+  csrw mepc, t0
   mret
   
 

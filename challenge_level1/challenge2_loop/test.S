@@ -12,6 +12,7 @@ RVTEST_CODE_BEGIN
 
   la t0, test_cases
   addi t5, t0, 48 
+ 
 
 loop:
 
