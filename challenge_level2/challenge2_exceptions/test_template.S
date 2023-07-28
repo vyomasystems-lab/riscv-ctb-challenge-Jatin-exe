@@ -282,44 +282,42 @@ add x0,x0,x0
 func1:
 add x0,x0,x0
   ret
-  
+
   .macro ecause00_00000
   # stack push
-  addi sp, sp, -3*REGBYTES
-  SREG a1, 1*REGBYTES(sp)
-  SREG x9, 2*REGBYTES(sp)
-  SREG x0, 3*REGBYTES(sp)
+  addi sp, sp, -2*REGBYTES
+  SREG a1,  1*REGBYTES(sp)
+  SREG x1,  2*REGBYTES(sp)
     
   # exception
-  la x9, 2f
+  la x1, 2f
   la a1, 1f
-  1:
-  jalr x0, 2(x9)
-  2:
+    1:
+  jr 2(x1)
+    2: 
   nop
   nop
   # stack pop
   LREG a1, 1*REGBYTES(sp)
-  LREG x9, 2*REGBYTES(sp)
-  LREG x0, 3*REGBYTES(sp)
-  addi sp, sp, 3*REGBYTES
-
+  LREG x1, 2*REGBYTES(sp)
+  addi sp, sp, 1*REGBYTES
   .endm
   
   .macro ecause01_00000
   # stack push
   addi sp, sp, -2*REGBYTES
   SREG a1,  1*REGBYTES(sp)
-  SREG x14,  2*REGBYTES(sp)
+  SREG x15,  2*REGBYTES(sp)
     
   # exception
   la a1, 1f
-    1:
-  jalr x14, x0
-    
+  li x15, 0
+    1: 
+  jr x15
+
   # stack pop
   LREG a1,  1*REGBYTES(sp)
-  LREG x14,  2*REGBYTES(sp)
+  LREG x15,  2*REGBYTES(sp)
   addi sp, sp,  2*REGBYTES
   .endm
   
@@ -329,52 +327,61 @@ add x0,x0,x0
   
   .macro ecause04_00000
   # stack push
-  addi sp, sp, -1*REGBYTES
-  SREG x7,  1*REGBYTES(sp)
+  addi sp, sp, -2*REGBYTES
+  SREG x12,  1*REGBYTES(sp)
+  SREG x9,  2*REGBYTES(sp)
     
   #exception
-  lw x7, 2(sp)
+  mv x12, sp
+  lw x9, 2(x12)
 
   # stack pop
-  LREG x7, 1*REGBYTES(sp)
-  addi sp, sp, 1*REGBYTES
+  LREG x12,  1*REGBYTES(sp)
+  LREG x9,  2*REGBYTES(sp)
+  addi sp, sp, 2*REGBYTES
   .endm
   
   .macro ecause05_00000
-  # exception
-  lh x0, (x0)
+  # stack push
+  addi sp, sp, -1*REGBYTES
+  SREG x12,  1*REGBYTES(sp)
+    
+  # exception 
+  li x12, 0
+  lhu x12, (x12)
+    
+  # stack pop
+  LREG x12,  1*REGBYTES(sp)
+  addi sp, sp,  1*REGBYTES
   .endm
   
   .macro ecause06_00000
   # stack push
   addi sp, sp, -2*REGBYTES
-  SREG x15,  1*REGBYTES(sp)
-  SREG x10,  2*REGBYTES(sp)
+  SREG x14,  1*REGBYTES(sp)
+  SREG x3,  2*REGBYTES(sp)
     
   #exception
-  mv x15, sp
-  li x10, 1
-  mul x15, x15, x10
-  SREG x10, 1(x15)
-  mul x15, x15, x10
+  mv x14, sp
+  sw x3, 1(x14)
 
   # stack pop
-  LREG x15,  1*REGBYTES(sp)
-  LREG x10,  2*REGBYTES(sp)
+  LREG x14,  1*REGBYTES(sp)
+  LREG x3,  2*REGBYTES(sp)
   addi sp, sp, 2*REGBYTES
   .endm
   
   .macro ecause07_00000
   # stack push
   addi sp, sp, -1*REGBYTES
-  SREG x1,  1*REGBYTES(sp)
+  SREG x13,  1*REGBYTES(sp)
     
   # exception 
-  li x1, 0
-  SREG x1, (x1)
+  li x13, 0
+  SREG x13, (x13)
     
   # stack pop
-  LREG x1,  1*REGBYTES(sp)
+  LREG x13,  1*REGBYTES(sp)
   addi sp, sp,  1*REGBYTES
   .endm
   
