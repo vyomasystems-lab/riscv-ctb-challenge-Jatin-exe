@@ -1,3 +1,5 @@
+# List of unique exceptions that were generated using aapg and their causes
+
 ## 1. exception trap_illegal_instruction, epc 0x800000b0
 ```
 core   0: 0x800000b0 (0x00301073) csrw    fcsr, zero

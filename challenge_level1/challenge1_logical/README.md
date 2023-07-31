@@ -1,6 +1,6 @@
 # Challenge1_Logical
 
-error message:
+**error message:**
 ```bash
 riscv32-unknown-elf-gcc -march=rv32i -mabi=ilp32 -static -mcmodel=medany -fvisibility=hidden -nostdlib -nostartfiles -I/workspaces/riscv-ctb-challenge-Jatin-exe/challenge_level1/challenge1_logical/common -T/workspaces/riscv-ctb-challenge-Jatin-exe/challenge_level1/challenge1_logical/common/link.ld test.S -o test.elf
 test.S: Assembler messages:
@@ -9,29 +9,30 @@ test.S:25584: Error: illegal operands `andi s5,t1,s0'
 make: *** [Makefile:4: compile] Error 1
 ```
 
-lets look at the instructions in test.s at 15855 and 25584
+the errors message informs that there are invalid instructions at line 15955 and 25585 in test.s
+lets look at the instructions 
 
-**15855:**
+**Line 15855:**
 ```asm
 and s7, ra, z4
 ```
 
-here z4 is invalid operand which makes this instruction invalid
+here z4 is invalid operand which makes this instruction invalid and raises error
+- removing this fixes the bug
 
-removing this fixes the bug
-
-**25584:**
+**Line 25584:**
 ```asm
 andi s5, t1, s0
 ```
 
-andi- and immediate, where the third argument must be immediate value (number) not a register
+**andi:** and-immediate, where the third argument must be immediate value (number) not a register
+Since s0 is not immediate value program raises error
 
-changing it to immediate or removing this instruction fixes it
+- changing it to immediate or removing this instruction fixes it
 
-**success!**
+**success! fixed the two bugs**
 
-output:
+**output after fix:**
 ```
 riscv32-unknown-elf-gcc -march=rv32i -mabi=ilp32 -static -mcmodel=medany -fvisibility=hidden -nostdlib -nostartfiles -I/workspaces/riscv-ctb-challenge-Jatin-exe/challenge_level1/challenge1_logical/common -T/workspaces/riscv-ctb-challenge-Jatin-exe/challenge_level1/challenge1_logical/common/link.ld test.S -o test.elf
 riscv32-unknown-elf-objdump -D test.elf > test.disass
